@@ -40,7 +40,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     region = fields.Many2one(comodel_name='res.partner.nuts',
-                             string="Region", readonly=True)
+                             string="Region")
     substate = fields.Many2one(comodel_name='res.partner.nuts',
                                string="Substate")
 
