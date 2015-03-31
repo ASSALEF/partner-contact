@@ -22,7 +22,18 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
+import collections
+
+
+def dict_recursive_update(d, u):
+    for k, v in u.iteritems():
+        if isinstance(v, collections.Mapping):
+            r = dict_recursive_update(d.get(k, {}), v)
+            d[k] = r
+        else:
+            d[k] = u[k]
+    return d
 
 
 class ResPartner(models.Model):
@@ -32,3 +43,20 @@ class ResPartner(models.Model):
                              string="Region", readonly=True)
     substate = fields.Many2one(comodel_name='res.partner.nuts',
                                string="Substate")
+
+    @api.multi
+    def onchange_state(self, state_id):
+        result = super(ResPartner, self).onchange_state(state_id)
+        if not state_id:
+            changes = {
+                'domain': {
+                    'substate': [],
+                    'region': [],
+                },
+                'value': {
+                    'substate': False,
+                    'region': False,
+                }
+            }
+            dict_recursive_update(result, changes)
+        return result
