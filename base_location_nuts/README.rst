@@ -15,7 +15,8 @@ these NUTS, for example:
 
 * l10n_es_location_nuts :
     * Spanish Provinces (NUTS level 4) as Partner State
-    * Spanish Autonomous communities (NUTS level 3) as Partner Region
+    * Spanish Autonomous communities (NUTS level 3) as Partner Substate
+    * Spanish Regions (NUTS level 2) as Partner Region
 * l10n_de_location_nuts :
     * German states (NUTS level 2) as Partner State
     * German regions (NUTS level 3) as Partner Substate
