@@ -166,7 +166,7 @@ msgstr "Provincia"
 #: view:res.partner:base_location_nuts.view_res_partner_filter_nuts
 #: field:res.partner,substate:0
 msgid "Substate"
-msgstr "Comarca"
+msgstr "Comunidad Autónoma"
 
 #. module: base_location_nuts
 #: view:nuts.import:base_location_nuts.nuts_import_form
