@@ -60,3 +60,12 @@ class ResPartner(models.Model):
             }
             dict_recursive_update(result, changes)
         return result
+
+    @api.onchange('substate', 'region')
+    def onchange_substate_or_region(self):
+        result = {'domain': {}}
+        if not self.substate:
+            result['domain']['substate'] = []
+        if not self.region:
+            result['domain']['region'] = []
+        return result
