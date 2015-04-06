@@ -195,7 +195,8 @@ class NutsImport(models.TransientModel):
 
     @api.one
     def run_import(self):
-        nuts_model = self.env['res.partner.nuts']
+        nuts_model = self.env['res.partner.nuts'].\
+            with_context(defer_parent_store_computation=True)
         self._load_countries()
         # All current NUTS (for available countries),
         #   delete if not found above
