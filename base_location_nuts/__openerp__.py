@@ -23,33 +23,21 @@
 ##############################################################################
 
 {
-    # Addon information
     'name': 'NUTS Regions',
     'category': 'Localisation/Europe',
     'version': '1.0',
     'depends': [
         'base',
     ],
-    'external_dependencies': {},
-    # Views templates, pages, menus, options and snippets
     'data': [
         'views/res_partner_nuts_view.xml',
         'views/res_partner_view.xml',
         'wizard/nuts_import_view.xml',
         'security/ir.model.access.csv',
     ],
-    # Qweb templates
-    'qweb': [
-    ],
-    # Your information
     'author': 'Antiun Ingeniería S.L.',
     'maintainer': 'Antiun Ingeniería S.L.',
     'website': 'http://www.antiun.com',
     'license': 'AGPL-3',
-    # Technical options
-    'demo': [],
-    'test': [],
     'installable': True,
-    # 'auto_install':False,
-    # 'active':True,
 }
