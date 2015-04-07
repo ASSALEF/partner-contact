@@ -37,11 +37,12 @@ class ResPartnerNuts(models.Model):
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
     country_id = fields.Many2one(comodel_name='res.country', string="Country",
-                                 required=True)
+                                 required=True, ondelete='set null')
     state_id = fields.Many2one(comodel_name='res.country.state',
-                               string='State')
+                               string='State', ondelete='set null')
     # Parent hierarchy
-    parent_id = fields.Many2one(comodel_name='res.partner.nuts')
+    parent_id = fields.Many2one(comodel_name='res.partner.nuts',
+                                ondelete='restrict')
     children = fields.One2many(comodel_name='res.partner.nuts',
                                inverse_name='parent_id')
     parent_left = fields.Integer('Parent Left', select=True)
