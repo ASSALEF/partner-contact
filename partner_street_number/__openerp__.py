@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Yannick Vaucher
-#    Copyright 2012 Camptocamp SA
+#    Odoo, an open source suite of business apps
+#    This module copyright (C) 2013-2015 Therp BV (<http://therp.nl>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,22 +19,19 @@
 #
 ##############################################################################
 {
-    'name': 'Partner Affiliates',
-    'version': '1.0',
-    'author': "Camptocamp,Odoo Community Association (OCA)",
-    'maintainer': 'Camptocamp',
-    'category': 'CRM',
-    'license': 'AGPL-3',
-    'depends': ['base'],
-    'description': """
-    Allows to use parent_id in company partner to refer to a parent company
-    Plus will show a tab in parent company of affiliated companies""",
-    'website': 'http://www.camptocamp.com',
-    'data': [
-        'res_partner_view.xml',
-    ],
-    'demo': [],
+    "name": "Street name and number",
+    "summary": "Introduces separate fields for street name and street number.",
+    "version": "0.1",
+    "author": "Therp BV,Odoo Community Association (OCA)",
+    "website": "https://github.com/oca/partner-contact",
+    "category": 'Tools',
+    "depends": [
+        'base'
+        ],
+    "data": [
+        'views/res_partner.xml',
+        ],
     'installable': True,
-    'auto_install': False,
-    'application': True
+    'license': 'AGPL-3',
+    'post_init_hook': 'post_init_hook',
 }
