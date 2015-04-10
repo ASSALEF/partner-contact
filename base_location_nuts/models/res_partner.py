@@ -40,9 +40,9 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     region = fields.Many2one(comodel_name='res.partner.nuts',
-                             string="Region", ondelete='set null')
+                             string="Region")
     substate = fields.Many2one(comodel_name='res.partner.nuts',
-                               string="Substate", ondelete='set null')
+                               string="Substate")
 
     @api.multi
     def onchange_state(self, state_id):
