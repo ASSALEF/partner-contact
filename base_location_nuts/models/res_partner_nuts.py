@@ -37,9 +37,9 @@ class ResPartnerNuts(models.Model):
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
     country_id = fields.Many2one(comodel_name='res.country', string="Country",
-                                 required=True, ondelete='set null')
+                                 required=True)
     state_id = fields.Many2one(comodel_name='res.country.state',
-                               string='State', ondelete='set null')
+                               string='State')
     # Parent hierarchy
     parent_id = fields.Many2one(comodel_name='res.partner.nuts',
                                 ondelete='restrict')
