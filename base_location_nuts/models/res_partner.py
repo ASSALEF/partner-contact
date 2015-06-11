@@ -23,6 +23,7 @@
 ##############################################################################
 
 from openerp import models, fields, api
+from openerp.tools.translate import _
 import collections
 
 
@@ -43,6 +44,14 @@ class ResPartner(models.Model):
                              string="Region")
     substate = fields.Many2one(comodel_name='res.partner.nuts',
                                string="Substate")
+    lbl_region = fields.Char(compute='_labels_get')
+    lbl_substate = fields.Char(compute='_labels_get')
+
+    @api.one
+    @api.depends('country_id')
+    def _labels_get(self):
+        self.lbl_region = _('Region')
+        self.lbl_substate = _('Substate')
 
     @api.multi
     def onchange_state(self, state_id):
