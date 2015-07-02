@@ -135,15 +135,15 @@ class ResCompany(models.Model):
     names_order = fields.Selection(
         [('first_last', 'Firstname Lastname'),
          ('last_first', 'Lastname Firstname')],
-        string="Names display order", default='last_first',
+        string="Names display order", default='last_first', required=True,
         help="Select order in which names are shown")
 
-    @api.multi
+    @api.one
     def action_recalculate_names(self):
         partners = self.env['res.partner'].search([
             ('company_id', '=', self.id)
         ])
         _logger.info("Recalculating names for %d partners.", len(partners))
-        partners._name_compute()
+        partners._compute_name()
         _logger.info("%d partners updated.", len(partners))
         return True
