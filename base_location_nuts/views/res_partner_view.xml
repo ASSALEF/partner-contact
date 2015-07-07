@@ -12,7 +12,7 @@
                  attrs="{'invisible': [('use_parent_address','=',True)]}">
                 <field name="lbl_substate" class="oe_inline"/>
             </div>
-            <div>
+            <div attrs="{'invisible': [('use_parent_address','=',True)]}">
                 <field name="substate"
                        class="oe_no_button"
                        options="{'no_open': True, 'no_create': True}"
@@ -22,7 +22,7 @@
                  attrs="{'invisible': [('use_parent_address','=',True)]}">
                 <field name="lbl_region" class="oe_inline"/>
             </div>
-            <div>
+            <div attrs="{'invisible': [('use_parent_address','=',True)]}">
                 <field name="region"
                        class="oe_no_button"
                        options="{'no_open': True, 'no_create': True}"
@@ -34,7 +34,7 @@
                  attrs="{'invisible': [('use_parent_address','=',True)]}">
                 <field name="lbl_substate" class="oe_inline"/>
             </div>
-            <div>
+            <div attrs="{'invisible': [('use_parent_address','=',True)]}">
                 <field name="substate"
                        class="oe_no_button"
                        options="{'no_open': True, 'no_create': True}"
@@ -44,7 +44,7 @@
                  attrs="{'invisible': [('use_parent_address','=',True)]}">
                 <field name="lbl_region" class="oe_inline"/>
             </div>
-            <div>
+            <div attrs="{'invisible': [('use_parent_address','=',True)]}">
                 <field name="region"
                        class="oe_no_button"
                        options="{'no_open': True, 'no_create': True}"
