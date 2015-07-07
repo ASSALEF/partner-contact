@@ -8,7 +8,8 @@
     <field name="inherit_id" ref="base.view_partner_form"/>
     <field name="arch" type="xml">
         <xpath expr="//sheet/group//field[@name='country_id']/.." position="after">
-            <div width="1%" cell-class="oe_form_group_cell_label">
+            <div width="1%" cell-class="oe_form_group_cell_label"
+                 attrs="{'invisible': [('use_parent_address','=',True)]}">
                 <field name="lbl_substate" class="oe_inline"/>
             </div>
             <div>
@@ -17,7 +18,8 @@
                        options="{'no_open': True, 'no_create': True}"
                        attrs="{'readonly': [('use_parent_address','=',True)]}"/>
             </div>
-            <div width="1%" cell-class="oe_form_group_cell_label">
+            <div width="1%" cell-class="oe_form_group_cell_label"
+                 attrs="{'invisible': [('use_parent_address','=',True)]}">
                 <field name="lbl_region" class="oe_inline"/>
             </div>
             <div>
@@ -27,8 +29,9 @@
                        attrs="{'readonly': [('use_parent_address','=',True)]}"/>
             </div>
         </xpath>
-        <xpath expr="//field[@name='child_ids']/form//field[@name='country_id']/.." position="before">
-            <div width="1%" cell-class="oe_form_group_cell_label">
+        <xpath expr="//field[@name='child_ids']/form//field[@name='country_id']/.." position="after">
+            <div width="1%" cell-class="oe_form_group_cell_label"
+                 attrs="{'invisible': [('use_parent_address','=',True)]}">
                 <field name="lbl_substate" class="oe_inline"/>
             </div>
             <div>
@@ -37,7 +40,8 @@
                        options="{'no_open': True, 'no_create': True}"
                        attrs="{'readonly': [('use_parent_address','=',True)]}"/>
             </div>
-            <div width="1%" cell-class="oe_form_group_cell_label">
+            <div width="1%" cell-class="oe_form_group_cell_label"
+                 attrs="{'invisible': [('use_parent_address','=',True)]}">
                 <field name="lbl_region" class="oe_inline"/>
             </div>
             <div>
