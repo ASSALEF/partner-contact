@@ -48,6 +48,16 @@ class ResPartner(models.Model):
             names = reversed(names)
         self.name = u" ".join(filter(None, names))
 
+    def _clean_field(self, field, default):
+        value = getattr(self, field)
+        clean = default
+        if value and type(value) in (str, unicode):
+            clean = u" ".join(value.split(None))
+            if not clean:
+                clean = default
+        if value != clean:
+            setattr(self, field, clean)
+
     @api.one
     def _inverse_name_after_cleaning_whitespace(self):
         """Clean whitespace in :attr:`~.name` and split it.
@@ -58,14 +68,14 @@ class ResPartner(models.Model):
         submodules can extend that method and get whitespace cleaning for free.
         """
         # Remove unneeded whitespace
-        clean = u" ".join(self.name.split(None)) if self.name else self.name
-
-        # Clean name avoiding infinite recursion
-        if self.name != clean:
-            self.name = clean
+        self._clean_field('name', '')
 
         # Save name in the real fields
-        elif self.is_company:
+        if self.env.context.get("skip_onchange"):
+            # Do not skip next onchange
+            self.env.context = (
+                self.with_context(skip_onchange=False).env.context)
+        else:
             self._inverse_name()
 
     @api.one
@@ -83,6 +93,7 @@ class ResPartner(models.Model):
         # Company name goes to the lastname
         if self.is_company or not self.name:
             parts = [self.name or False, False]
+
         # Guess name splitting
         else:
             parts = self.name.split(" ")
@@ -97,6 +108,7 @@ class ResPartner(models.Model):
             else:
                 while len(parts) < 2:
                     parts.append(False)
+
         self.lastname, self.firstname = parts
 
     @api.one
@@ -107,22 +119,52 @@ class ResPartner(models.Model):
             raise exceptions.EmptyNamesError(self)
 
     @api.one
-    @api.onchange("is_company")
-    def onchange_type_new(self):
-        result = super(ResPartner, self).onchange_type(self.is_company)
-        if not self.is_company:
-            self._inverse_name_after_cleaning_whitespace()
-            self._inverse_name()
-        if 'values' in result and type(result['values']) is dict:
-            for k, v in result['values'].iteritems():
-                self.__setattr__(k, v)
-        return result
+    @api.onchange("firstname", "lastname")
+    def _onchange_subnames(self):
+        """Avoid recursion when the user changes one of these fields.
+
+        This forces to skip the :attr:`~.name` inversion when the user is
+        setting it in a not-inverted way.
+        """
+        self._clean_field('firstname', False)
+        self._clean_field('lastname', False)
+
+        # Modify self's context without creating a new Environment.
+        # See https://github.com/odoo/odoo/issues/7472#issuecomment-119503916.
+        self.env.context = self.with_context(skip_onchange=True).env.context
 
     @api.one
     @api.onchange("name")
     def _onchange_name(self):
         """Ensure :attr:`~.name` is inverted in the UI."""
         self._inverse_name_after_cleaning_whitespace()
+
+    @api.multi
+    def _clean_names(self, vals):
+        fields = {
+            'name': '',
+            'firstname': False,
+            'lastname': False,
+        }
+        for field, default in fields.iteritems():
+            if vals.get(field, None) is not None:
+                value = vals.get(field) if vals.get(field) else default
+                if value and type(value) in (str, unicode):
+                    value = u" ".join(value.split(None))
+                    if not value:
+                        value = default
+                vals[field] = value
+        return vals
+
+    @api.multi
+    def write(self, vals):
+        vals = self._clean_names(vals)
+        return super(ResPartner, self).write(vals)
+
+    @api.model
+    def create(self, vals):
+        vals = self._clean_names(vals)
+        return super(ResPartner, self).create(vals)
 
     @api.model
     def _install_partner_firstname(self):
