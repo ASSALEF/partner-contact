@@ -28,4 +28,4 @@
 #
 ##############################################################################
 
-from . import test_contact, test_company
+from . import test_empty, test_name, test_onchange
