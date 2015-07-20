@@ -139,9 +139,3 @@ class PartnerCompanyCase(BaseCase):
             self.expect(n, False, n)
             self.changed = self.original.with_context(lang="en_US").copy()
             self.expect(nc, False, nc)
-
-
-#class PartnerCompanyCaseInverse(PartnerCompanyCase):
-#    def partner_company_create(self, name):
-#        super(PartnerCompanyCaseInverse, self).partner_company_create(name)
-#        self.original.company_id.names_order = 'first_last'

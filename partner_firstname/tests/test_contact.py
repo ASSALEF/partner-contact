@@ -229,14 +229,3 @@ class PartnerContactCase(BaseCase):
 class UserContactCase(PartnerContactCase):
     def partner_contact_create(self, lastname, firstname):
         return self.user_create(lastname, firstname)
-
-
-# class PartnerContactCaseInverse(PartnerContactCase):
-#     def partner_contact_create(self, lastname, firstname):
-#         super(PartnerContactCaseInverse, self).partner_contact_create(
-#             lastname, firstname)
-#         self.original.company_id.names_order = 'first_last'
-#
-#     def _join_names(self, lastname, firstname):
-#         return super(PartnerContactCaseInverse, self)._join_names(
-#             firstname, lastname)
