@@ -22,8 +22,6 @@
 import logging
 from openerp import api, fields, models, _
 from . import exceptions
-from pprint import pprint, pformat
-import traceback
 
 
 _logger = logging.getLogger(__name__)
