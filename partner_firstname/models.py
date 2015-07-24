@@ -20,8 +20,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from openerp import api, fields, models
+from openerp import api, fields, models, _
 from . import exceptions
+from pprint import pprint, pformat
+import traceback
 
 
 _logger = logging.getLogger(__name__)
@@ -157,13 +159,34 @@ class ResPartner(models.Model):
         return vals
 
     @api.multi
+    def _precedence_check(self, vals):
+        name = vals.get('name', False)
+        firstname = vals.get('firstname', False)
+        lastname = vals.get('lastname', False)
+        if name and (firstname or lastname):
+            # firstname or lastname have precedence
+            vals.pop('name', None)
+        return vals
+
+    @api.one
+    def copy(self, default=None):
+        default = dict(default or {})
+        if self.lastname:
+            default['lastname'] = _('%s (copy)') % self.lastname
+        elif self.firstname:
+            default['firstname'] = _('%s (copy)') % self.firstname
+        return super(ResPartner, self).copy(default)
+
+    @api.multi
     def write(self, vals):
         vals = self._clean_names(vals)
+        vals = self._precedence_check(vals)
         return super(ResPartner, self).write(vals)
 
     @api.model
     def create(self, vals):
         vals = self._clean_names(vals)
+        vals = self._precedence_check(vals)
         return super(ResPartner, self).create(vals)
 
     @api.model
@@ -201,3 +224,19 @@ class ResCompany(models.Model):
         partners._compute_name()
         _logger.info("%d partners updated.", len(partners))
         return True
+
+
+class ResUsers(models.Model):
+    _inherit = 'res.users'
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        user2copy = self.read(
+            cr, uid, [id], ['login', 'firstname', 'lastname'])[0]
+        default = dict(default or {})
+        if ('lastname' not in default) and ('partner_id' not in default):
+            default['lastname'] = (_("%s (copy)") %
+                                   user2copy['lastname'] or
+                                   user2copy['firstname'])
+        if 'login' not in default:
+            default['login'] = _("%s (copy)") % user2copy['login']
+        return super(ResUsers, self).copy(cr, uid, id, default, context)
