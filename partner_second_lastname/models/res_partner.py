@@ -69,6 +69,16 @@ class ResPartner(models.Model):
         self.lastname_second = lastname_second
 
     @api.multi
+    def _precedence_check(self, vals):
+        vals = super(ResPartner, self)._precedence_check(vals)
+        name = vals.get('name', False)
+        lastname_second = vals.get('lastname_second', False)
+        if name and lastname_second:
+            # lastname_second have precedence
+            vals.pop('name', None)
+        return vals
+
+    @api.multi
     def _clean_names(self, vals):
         fields = {
             'name': '',
