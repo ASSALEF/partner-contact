@@ -116,6 +116,7 @@ class ResPartner(models.Model):
             else:
                 while len(parts) < 2:
                     parts.append(False)
+        return parts
 
     @api.one
     def _inverse_name(self):
