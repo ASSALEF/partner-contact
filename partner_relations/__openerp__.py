@@ -20,14 +20,19 @@
 ##############################################################################
 {
     "name": "Partner relations",
-    "version": "1.1",
-    "author": "Therp BV,Odoo Community Association (OCA)",
+    "version": "8.0.1.1.0",
+    "author": "Therp BV,Camptocamp,Odoo Community Association (OCA)",
     "complexity": "normal",
     "category": "Customer Relationship Management",
     "depends": [
+        'base',
     ],
     "demo": [
         "data/demo.xml",
+    ],
+    "test": [
+        "test/test_allow.yml",
+        # "test/test_disallow.yml",
     ],
     "data": [
         "view/res_partner_relation_all.xml",
